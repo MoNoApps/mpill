@@ -59,46 +59,59 @@ MPill.prototype.Insert = function(doc, cb) {
  *   expects two params err and .
  */
 /*
-    From mongodb.org
-    FIELDS
+  From mongodb.org
+  FIELDS
 
-    $inc  Increments the value of the field by the specified amount.
-    $mul  Multiplies the value of the field by the specified amount.
-    $rename Renames a field.
-    $setOnInsert  Sets the value of a field upon document creation during an upsert. Has no effect on update operations that modify existing documents.
-    $set  Sets the value of a field in a document.
-    $unset  Removes the specified field from a document.
-    $min  Only updates the field if the specified value is less than the existing field value.
-    $max  Only updates the field if the specified value is greater than the existing field value.
-    $currentDate  Sets the value of a field to current date, either as a Date or a Timestamp.
+  $inc  Increments the value of the field by the specified amount.
+  $mul  Multiplies the value of the field by the specified amount.
+  $rename Renames a field.
+  $setOnInsert  Sets the value of a field upon document creation during an upsert. Has no effect on update operations that modify existing documents.
+  $set  Sets the value of a field in a document.
+  $unset  Removes the specified field from a document.
+  $min  Only updates the field if the specified value is less than the existing field value.
+  $max  Only updates the field if the specified value is greater than the existing field value.
+  $currentDate  Sets the value of a field to current date, either as a Date or a Timestamp.
 
-    ARRAYS
-    $ Acts as a placeholder to update the first element that matches the query condition in an update.
-    $addToSet Adds elements to an array only if they do not already exist in the set.
-    $pop  Removes the first or last item of an array.
-    $pullAll  Removes all matching values from an array.
-    $pull Removes all array elements that match a specified query.
-    $pushAll  Deprecated. Adds several items to an array.
-    $push Adds an item to an array.
+  ARRAYS
+  $ Acts as a placeholder to update the first element that matches the query condition in an update.
+  $addToSet Adds elements to an array only if they do not already exist in the set.
+  $pop  Removes the first or last item of an array.
+  $pullAll  Removes all matching values from an array.
+  $pull Removes all array elements that match a specified query.
+  $pushAll  Deprecated. Adds several items to an array.
+  $push Adds an item to an array.
 
-    MODIFIERS
-    $each Modifies the $push and $addToSet operators to append multiple items for array updates.
-    $slice  Modifies the $push operator to limit the size of updated arrays.
-    $sort Modifies the $push operator to reorder documents stored in an array.
-    $position Modifies the $push operator to specify the position in the array to add elements.
+  MODIFIERS
+  $each Modifies the $push and $addToSet operators to append multiple items for array updates.
+  $slice  Modifies the $push operator to limit the size of updated arrays.
+  $sort Modifies the $push operator to reorder documents stored in an array.
+  $position Modifies the $push operator to specify the position in the array to add elements.
 
-    BITWISE
-    $bit  Performs bitwise AND, OR, and XOR updates of integer values.
+  BITWISE
+  $bit  Performs bitwise AND, OR, and XOR updates of integer values.
 
-    ISOLATED
-    $isolated Modifies behavior of multi-updates to increase the isolation of the operation.
+  ISOLATED
+  $isolated Modifies behavior of multi-updates to increase the isolation of the operation.
+*/
+/*
+  http://docs.mongodb.org/manual/reference/write-concern/
+  write concern posible values (n)
+  n=1: primary
+  n=0: disables ackowledgment
+  n>1: at least n secondaries acknowledgements
+  "majority" : equal to 'w: 1'
 
-    */
+*/
+
 MPill.prototype.Update = function(query, doc, concern, cb) {
   mp = this;
   this.Connect(function(err, db){
     var col = db.collection(mp.NAME);
-    col.update(query, doc, concern, function(err, results) {
+    if (!query || !doc){
+      return cb({error: {message: 'Query and Doc are required.'}})
+    }
+
+    col.update(query, doc, concern || {w: 1}, function(err, results) {
       db.close();
       if(cb){
         cb(err, results);
@@ -179,6 +192,19 @@ MPill.prototype.DropIndex = function(query, cb) {
   this.Connect(function(err, db){
     var col = db.collection(mp.NAME)
     col.dropIndex(query, function(err, results) {
+      db.close();
+      if(cb){
+        cb(err, results);
+      }
+    });
+  })
+};
+
+MPill.prototype.DropCollection = function(cb) {
+  mp = this;
+  this.Connect(function(err, db){
+    var col = db.collection(mp.NAME)
+    col.drop(function(err, results) {
       db.close();
       if(cb){
         cb(err, results);

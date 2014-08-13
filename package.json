@@ -1,7 +1,7 @@
 {
   "name": "mpill",
-  "version": "0.0.1",
-  "description": "MoNoApps MongoDB MPill Pill",
+  "version": "0.0.2",
+  "description": "MoNoApps MongoDB Pill",
   "main": "mpill.js",
   "scripts": {
     "test": "mocha"
