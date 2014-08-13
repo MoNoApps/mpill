@@ -136,7 +136,7 @@ MPill.prototype.Remove = function(query, cb) {
 MPill.prototype.Find = function(query, cb, project, options, limit, sort) {
   mp = this;
   this.Connect(function(err, db){
-    var col = db.collection(mp.Name)
+    var col = db.collection(mp.NAME)
     col.find(query || {}, project || {}, options || {w: 1})
        .limit(limit || 10)
        .sort(sort || {_id: 1})
@@ -163,7 +163,6 @@ MPill.prototype.FindOne = function(query, cb) {
 };
 
 MPill.prototype.DropDB = function(cb) {
-  mp = this;
   this.Connect(function(err, db){
     db.dropDatabase(function(err, results) {
       db.close();
