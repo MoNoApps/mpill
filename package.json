@@ -1,6 +1,6 @@
 {
   "name": "mpill",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "MoNoApps MongoDB Pill",
   "main": "mpill.js",
   "scripts": {
@@ -15,6 +15,10 @@
     "MPill",
     "mna"
   ],
+  "dependencies": {
+    "mongodb": "*",
+    "tpill": "*"
+  },
   "author": "Daniel Martinez",
   "license": "MIT",
   "bugs": {

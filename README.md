@@ -62,7 +62,7 @@ Usage
 ===
 ````js
 'Import pill'
-var MPill = require('../mpill.js').MPill;
+var MPill = require('mpill').MPill;
 var url = 'mongodb://127.0.0.1/mpill';
 users = new MPill('users', url);
 
