@@ -14,8 +14,11 @@ var MPill = function(name, URL){
  * @param function cb, the callback function.
  */
 MPill.prototype.Connect = function(cb) {
-  MongoClient.connect(this.URL, function(err, db) {
-    if (err) {
+  mp = this;
+  MongoClient.connect(mp.URL, function(err, db) {
+    if (db === null){
+      throw new Error('Connection cannot be established. (URL: ' + mp.URL + ')');
+    }else if (err) {
       if (db) {
         db.close();
       }
