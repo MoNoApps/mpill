@@ -15,22 +15,39 @@ var MPill = function(name, URL){
  */
 MPill.prototype.Connect = function(cb) {
   mp = this;
-  MongoClient.connect(mp.URL, function(err, db) {
-    if (db === null){
-      throw new Error('Connection cannot be established. (URL: ' + mp.URL + ')');
-    }else if (err) {
-      if (db) {
-        db.close();
-      }
-      cb(err);
-    } else {
-      if (db) {
-        cb(err, db)
+  try{
+    MongoClient.connect(mp.URL, function(err, db) {
+      if (db === null){
+        console.log('Connection can not be established. (URL: %j)', mp.URL);
+      }else if (err) {
+        if (db) {
+          db.close();
+        }
+
+        if (cb) {
+          cb(err);
+        }else{
+          console.log(err);
+        }
       } else {
-        cb("ERR: No db object found.");
+        if (db) {
+          if (cb) {
+            cb(err, db);
+          }
+        } else {
+          if (cb) {
+            cb("ERR: No db object found.");
+          }else{
+            console.log("ERR: No db object found.");
+          }
+        }
       }
-    }
-  });
+    });
+  }catch(e){
+    console.log('Connection can not be established. (URL: %j)', mp.URL);
+    console.log(e);
+  }
+
 };
 
 /**
@@ -47,7 +64,9 @@ MPill.prototype.Insert = function(doc, cb) {
     var col = db.collection(mp.NAME);
     col.insert(doc, function(err, results) {
       db.close();
-      cb(err, results);
+      if (cb) {
+        cb(err, results);
+      }
     });
   })
 };
