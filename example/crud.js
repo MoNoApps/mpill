@@ -7,7 +7,7 @@ var myCompany = {name: 'MoNoApps'};
 
 companies.DropCollection(function(err,results){
   if (err) throw err;
-  tpill.create(!true, err, 'DropCollection',true);
+  tpill.create(true, results, 'DropCollection',true);
 
   companies.Insert(myCompany,function(err,results){
     if (err) throw err;
@@ -22,7 +22,7 @@ companies.DropCollection(function(err,results){
         if (err) throw err;
         tpill.create('MoNoApps LLC', results.name, 'FindOne',true);
         tpill.create('object', typeof results, 'Finish Task',true);
-        
+
         tpill.run(function(){
           process.exit()
         });
