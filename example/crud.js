@@ -27,11 +27,11 @@ companies.CreateCollection(function(err, collection){
         companies.FindOne({'_id': myCompany._id}, function(err,results){
           if (err) throw err;
           tpill.create('MoNoApps LLC', results.name, 'FindOne', true);
-          tpill.create('object', typeof results, 'Finish Task', true);
 
           companies.Count({}, function(err,results){
             if (err) throw err;
             tpill.create(1, results, 'Count', true);
+            tpill.create('object', typeof results, 'Finish Task', true);
 
             tpill.run(function(){
               process.exit()

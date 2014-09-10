@@ -7,7 +7,7 @@ This pill ensure that you are open and closing the db connections.
 
 If you want to use the full api use [mongodb driver](http://mongodb.github.io/node-mongodb-native/)
 
-If you want to use strict models with structures use [mongose schemas](http://mongoosejs.com/docs/guide.html)
+If you want to use strict models with structures use [mongoosejs schemas](http://mongoosejs.com/docs/guide.html)
 
 If  schemas or custom options/settings are not important right now for your project, then feel free to use mpill.
 
@@ -41,8 +41,8 @@ If all gone well you will see someting like
 ✓ Insert
 ✓ Update
 ✓ FindOne
-✓ Finish Task
 ✓ Count
+✓ Finish Task
 
 Statistics: {"pass":5,"fail":0,"warn":0}
 ````
