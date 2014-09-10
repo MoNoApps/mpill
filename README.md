@@ -5,12 +5,18 @@ MoNoApps MongoDB Model Pill.
 Use this model to prevent rewrite same model many times.
 This pill ensure that you are open and closing the db connections.
 
+If you want to use the full api use [mongodb driver](http://mongodb.github.io/node-mongodb-native/)
+
+If you want to use strict models with structures use [mongose schemas](http://mongoosejs.com/docs/guide.html)
+
+If  schemas or custom options/settings are not important right now for your project, then feel free to use mpill.
+
 Workflow looks like:
 ````js
 1=>'requiere mpill'
 2=>'instanciate a collection'
-3=>'call one of in list [Insert|Update|Remove|Find|FindOne|CreateIndex|DropCollection|DropIndex]'
-4=>'you do not need to open and  close db'
+3=>'call one of in list [Insert|Update|Remove|Find|FindOne|CreateIndex|DropCollection|DropIndex|Count]'
+4=>'remember, you do not need to open and  close db'
 ````
 
 Test real examples with tpill
@@ -30,11 +36,13 @@ node example/crud.js
 ````
 If all gone well you will see someting like
 ````shell
+✓ CreateCollection
 ✓ DropCollection
 ✓ Insert
 ✓ Update
 ✓ FindOne
 ✓ Finish Task
+✓ Count
 
 Statistics: {"pass":5,"fail":0,"warn":0}
 ````
@@ -79,6 +87,8 @@ users.FindOne(query, cb)
 users.CreateIndex(query, cb)
 users.DropCollection(query, cb)
 users.DropIndex(query, cb)
+users.CreateCollection(cb)
+users.Count(query, cb)
 ````
 About concern
 ===

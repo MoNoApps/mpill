@@ -234,4 +234,30 @@ MPill.prototype.DropCollection = function(cb) {
   })
 };
 
+MPill.prototype.Count = function(query, cb) {
+  mp = this;
+  this.Connect(function(err, db){
+    var col = db.collection(mp.NAME);
+    col.count(function(err, results) {
+      db.close();
+      if(cb){
+        cb(err, results);
+      }
+    });
+  })
+};
+
+//Prevents "MongoError: ns not found"
+MPill.prototype.CreateCollection = function(cb) {
+  mp = this;
+  this.Connect(function(err, db){
+    db.createCollection(mp.NAME, function(err, collection) {
+      db.close();
+      if(cb){
+        cb(err, collection);
+      }
+    });
+  })
+};
+
 module.exports.MPill = MPill;
