@@ -31,7 +31,7 @@ companies.CreateCollection(function(err, collection){
           companies.Count({}, function(err,results){
             if (err) throw err;
             tpill.create(1, results, 'Count', true);
-            tpill.create('object', typeof results, 'Finish Task', true);
+            tpill.create('number', typeof results, 'Finish Task', true);
 
             tpill.run(function(){
               process.exit()

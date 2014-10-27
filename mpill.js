@@ -14,7 +14,7 @@ var MPill = function(name, URL){
  * @param function cb, the callback function.
  */
 MPill.prototype.Connect = function(cb) {
-  mp = this;
+  var mp = this;
   try{
     MongoClient.connect(mp.URL, function(err, db) {
       if (db === null){
@@ -59,7 +59,7 @@ MPill.prototype.Connect = function(cb) {
  *   expects two params err and .
  */
 MPill.prototype.Insert = function(doc, cb) {
-  mp = this;
+  var mp = this;
   this.Connect(function(err, db){
     var col = db.collection(mp.NAME);
     col.insert(doc, function(err, results) {
@@ -126,7 +126,7 @@ MPill.prototype.Insert = function(doc, cb) {
 */
 
 MPill.prototype.Update = function(query, doc, concern, cb) {
-  mp = this;
+  var mp = this;
   this.Connect(function(err, db){
     var col = db.collection(mp.NAME);
     if (!query || !doc){
@@ -143,7 +143,7 @@ MPill.prototype.Update = function(query, doc, concern, cb) {
 };
 
 MPill.prototype.Remove = function(query, cb) {
-  mp = this;
+  var mp = this;
   this.Connect(function(err, db){
     var col = db.collection(mp.NAME);
     col.remove(query, function(err, results) {
@@ -156,7 +156,7 @@ MPill.prototype.Remove = function(query, cb) {
 };
 
 MPill.prototype.Find = function(query, cb, project, options, limit, sort) {
-  mp = this;
+  var mp = this;
   this.Connect(function(err, db){
     var col = db.collection(mp.NAME)
     col.find(query || {}, project || {}, options || {w: 1})
@@ -172,7 +172,7 @@ MPill.prototype.Find = function(query, cb, project, options, limit, sort) {
 };
 
 MPill.prototype.FindOne = function(query, cb) {
-  mp = this;
+  var mp = this;
   this.Connect(function(err, db){
     var col = db.collection(mp.NAME);
     col.findOne(query || {}, function(err, results) {
@@ -196,7 +196,7 @@ MPill.prototype.DropDB = function(cb) {
 };
 
 MPill.prototype.CreateIndex = function(query, cb) {
-  mp = this;
+  var mp = this;
   this.Connect(function(err, db){
     var col = db.collection(mp.NAME);
     col.createIndex(query, function(err, results) {
@@ -209,7 +209,7 @@ MPill.prototype.CreateIndex = function(query, cb) {
 };
 
 MPill.prototype.DropIndex = function(query, cb) {
-  mp = this;
+  var mp = this;
   this.Connect(function(err, db){
     var col = db.collection(mp.NAME)
     col.dropIndex(query, function(err, results) {
@@ -222,7 +222,7 @@ MPill.prototype.DropIndex = function(query, cb) {
 };
 
 MPill.prototype.DropCollection = function(cb) {
-  mp = this;
+  var mp = this;
   this.Connect(function(err, db){
     var col = db.collection(mp.NAME)
     col.drop(function(err, results) {
@@ -235,7 +235,7 @@ MPill.prototype.DropCollection = function(cb) {
 };
 
 MPill.prototype.Count = function(query, cb) {
-  mp = this;
+  var mp = this;
   this.Connect(function(err, db){
     var col = db.collection(mp.NAME);
     col.count(function(err, results) {
@@ -249,7 +249,7 @@ MPill.prototype.Count = function(query, cb) {
 
 //Prevents "MongoError: ns not found"
 MPill.prototype.CreateCollection = function(cb) {
-  mp = this;
+  var mp = this;
   this.Connect(function(err, db){
     db.createCollection(mp.NAME, function(err, collection) {
       db.close();
