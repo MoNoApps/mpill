@@ -47,7 +47,7 @@ describe('MPill functions', function(){
     })
   })
   describe('method create index', function(){
-    it('should exists create index function', function(){
+    it('should exists drop collection function', function(){
       assert.ok(users.DropCollection);
     })
   })

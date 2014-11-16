@@ -238,7 +238,7 @@ MPill.prototype.Count = function(query, cb) {
   var mp = this;
   this.Connect(function(err, db){
     var col = db.collection(mp.NAME);
-    col.count(function(err, results) {
+    col.count(query, function(err, results) {
       db.close();
       if(cb){
         cb(err, results);
