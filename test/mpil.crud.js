@@ -56,4 +56,9 @@ describe('MPill functions', function(){
       assert.ok(users.DropIndex);
     })
   })
+  describe('method find by objectId', function(){
+    it('should exists find by objectId function', function(){
+      assert.ok(users.FindByObjectId);
+    })
+  })
 })

@@ -5,12 +5,12 @@ var url = 'mongodb://127.0.0.1/mpill';
 var companies = new MPill('verbose', url);
 var myCompany = {name: 'MoNoApps'};
 
-//Ensure collection exist before drop it
+// Ensure collection exists before drop it
 companies.CreateCollection(function(err, collection){
   if (err) throw err;
   tpill.create(companies.NAME, collection.collectionName, 'CreateCollection', true);
 
-  //Clean collection
+  // Clean collection
   companies.DropCollection(function(err,results){
     if (err) throw err;
     tpill.create(true, results, 'DropCollection', true);
@@ -28,13 +28,20 @@ companies.CreateCollection(function(err, collection){
           if (err) throw err;
           tpill.create('MoNoApps LLC', results.name, 'FindOne', true);
 
-          companies.Count({}, function(err,results){
+          //var hex_value = '3ced938e'; this throws an error because is notinvalid
+          var hex_value = myCompany._id.toString();
+          companies.FindByObjectId({'_id': hex_value}, '_id', function(err,results){
             if (err) throw err;
-            tpill.create(1, results, 'Count', true);
-            tpill.create('number', typeof results, 'Finish Task', true);
+            tpill.create('MoNoApps LLC', results.name, 'FindByObjectId', true);
 
-            tpill.run(function(){
-              process.exit()
+            companies.Count({}, function(err,results){
+              if (err) throw err;
+              tpill.create(1, results, 'Count', true);
+              tpill.create('number', typeof results, 'Finish Task', true);
+
+              tpill.run(function(){
+                process.exit()
+              });
             });
           });
         });

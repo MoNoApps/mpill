@@ -1,79 +1,58 @@
-mpill
-=====
-
-MoNoApps MongoDB Model Pill.
-Use this model to prevent rewrite same model many times.
-This pill ensure that you are open and closing the db connections.
-
-If you want to use the full api use [mongodb driver](http://mongodb.github.io/node-mongodb-native/)
-
-If you want to use strict models with structures use [mongoosejs schemas](http://mongoosejs.com/docs/guide.html)
-
-If  schemas or custom options/settings are not important right now for your project, then feel free to use mpill.
-
-Workflow looks like:
-````js
-1=>'requiere mpill'
-2=>'instanciate a collection'
-3=>'call one of in list [Insert|Update|Remove|Find|FindOne|CreateIndex|DropCollection|DropIndex|Count]'
-4=>'remember, you do not need to open and  close db'
-````
-
-Test real examples with tpill
-==
-Install two packages
-````bash
-npm install mongodb
-npm install tpill
-````
-Run mongodb server
-````bash
-bin/mongod --dbpath mypath/data/mpill
-````
-Execute the sample:
-````bash
-node example/crud.js
-````
-If all gone well you will see someting like
-````shell
-✓ CreateCollection
-✓ DropCollection
-✓ Insert
-✓ Update
-✓ FindOne
-✓ Count
-✓ Finish Task
-
-Statistics: {"pass":5,"fail":0,"warn":0}
-````
-Connect to mongodb instance with
-````json
-bin/mongo
-...connecting...
->use mpill
-> db.companies.find().pretty()
-{
-	"_id" : ObjectId("53ebc56689f9c5a536ee4625"),
-	"name" : "MoNoApps LLC",
-	"upgrade" : true
-}
-````
-
-Test with mocha
+MPill
 ===
-For now just check that functions exists
-```bash
-mocha
-```
+Coding apps without to be worried about data models.
 
-Usage
+Single model instance
 ===
 ````js
-'Import pill'
 var MPill = require('mpill').MPill;
 var url = 'mongodb://127.0.0.1/mpill';
 users = new MPill('users', url);
+````
 
+Multiple models at a once
+===
+models.js
+````js
+var MPill = require('../mpill.js').MPill;
+
+var colls = ['users','groups','roles','tasks'];
+var url   = 'mongodb://127.0.0.1/mydb';
+
+// exports each collection
+for(var i in colls){
+	module.exports[colls[i]] = new MPill(colls[i], url);
+}
+````
+userController.js (let's said this is for express route)
+````js
+var models = require('./models');
+
+var Users = {};
+
+Users.List = function(req, res){
+	models.users.FindOne({'email': 'rrunner@acme.co'}, function(err, rrunner){
+		if(err){ return res.status(500); }
+
+		var query = { user_id: rrunner._id, label: 'open' };
+
+		models.tasks.Find(query, function(err, toDo){
+			if(err){ return res.status(500); }
+
+			res.json({
+				user: rrunner,
+				tasks: toDo
+			});
+		});
+	});
+};
+...
+module.exports.Users = Users;
+````
+
+API reference
+===
+````js
 'Generic methods'
 users.Connect(cb)
 users.DropDB(cb)
@@ -84,17 +63,49 @@ users.Update(query, doc, concern, cb)
 users.Remove(query, cb)
 users.Find(query, cb, project, options, limit, sort)
 users.FindOne(query, cb)
+users.FindByObjectId(query, key, cb)
 users.CreateIndex(query, cb)
 users.DropCollection(query, cb)
 users.DropIndex(query, cb)
 users.CreateCollection(cb)
 users.Count(query, cb)
 ````
+
+Test with tpill
+==
+Running [CRUD sample](example/crud.js)
+````bash
+npm install
+// mongod --dbpath $HOME/data/mpill &
+node example/crud.js
+````
+Results:
+````shell
+✓ CreateCollection
+✓ DropCollection
+✓ Insert
+✓ Update
+✓ FindOne
+✓ FindByObjectId
+✓ Count
+✓ Finish Task
+
+Statistics: {"pass":8,"fail":0,"warn":0}
+````
+
+Test with mocha
+===
+Keeps definded functions.
+```bash
+mocha
+13 passing (9ms)
+```
+
 About concern
 ===
-You can read this: http://docs.mongodb.org/manual/reference/write-concern/
+Full api doc: http://docs.mongodb.org/manual/reference/write-concern/
 
-Or just write
 ````js
-{w:1} //Use primary node server
+//Sample with concern
+var concern = {w:1}; //Use primary node server
 ````

@@ -4,7 +4,7 @@
  **/
 //models.js
 var MPill = require('../mpill.js').MPill;
-var url   = 'mongodb://127.0.0.1/colgr';
+var url   = 'mongodb://127.0.0.1/collectiongroup';
 var colls = ['users','groups','roles','tasks'];
 
 //Exports every new collection
@@ -23,4 +23,3 @@ var tasks  = models.tasks;
 ...
 
 **/
-

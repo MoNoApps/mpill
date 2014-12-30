@@ -1,6 +1,6 @@
 {
   "name": "mpill",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "MoNoApps MongoDB Pill",
   "main": "mpill.js",
   "scripts": {
