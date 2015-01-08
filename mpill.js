@@ -16,14 +16,14 @@ var MPill = function(name, URL){
  */
 MPill.prototype.Connect = function(cb) {
   var mp = this;
-  var ERR_DB_OBJECT = 'ERR: No db object found.';
-  var ERR_CONECTION = 'Connection to ' + this.URL + ' can not be established.';
+  var ERR_DB_OBJECT = {'code': 'DBNotFound', 'message': 'DB object not found'};
+  var ERR_CONECTION = {'code': 'ConnectionNotEstablished', 'message': 'Connection to ' + this.URL + ' can not be established.' };
 
   try{
     MongoClient.connect(mp.URL, function(err, db) {
       if (db === null){
         if (cb) {
-          console.log(ERR_CONECTION);
+          cb(ERR_CONECTION);
         }else{
           console.log(ERR_CONECTION);
         }
@@ -68,6 +68,8 @@ MPill.prototype.Connect = function(cb) {
 MPill.prototype.Insert = function(doc, cb) {
   var mp = this;
   this.Connect(function(err, db){
+    if(err){ if(cb) { return cb(err, false); } }
+
     var col = db.collection(mp.NAME);
     col.insert(doc, function(err, results) {
       db.close();
@@ -90,6 +92,8 @@ MPill.prototype.Insert = function(doc, cb) {
 MPill.prototype.Update = function(query, doc, concern, cb) {
   var mp = this;
   this.Connect(function(err, db){
+    if(err){ if(cb) { return cb(err, false); } }
+
     var col = db.collection(mp.NAME);
     if (!query || !doc){
       return cb({error: {message: 'Query and Doc are required.'}})
@@ -107,6 +111,8 @@ MPill.prototype.Update = function(query, doc, concern, cb) {
 MPill.prototype.Remove = function(query, cb) {
   var mp = this;
   this.Connect(function(err, db){
+    if(err){ if(cb) { return cb(err, false); } }
+
     var col = db.collection(mp.NAME);
     col.remove(query, function(err, results) {
       db.close();
@@ -120,6 +126,8 @@ MPill.prototype.Remove = function(query, cb) {
 MPill.prototype.Find = function(query, cb, project, options, limit, sort) {
   var mp = this;
   this.Connect(function(err, db){
+    if(err){ if(cb) { return cb(err, false); } }
+
     var col = db.collection(mp.NAME)
     col.find(query || {}, project || {}, options || {w: 1})
        .limit(limit || 10)
@@ -136,6 +144,8 @@ MPill.prototype.Find = function(query, cb, project, options, limit, sort) {
 MPill.prototype.FindOne = function(query, cb) {
   var mp = this;
   this.Connect(function(err, db){
+    if(err){ if(cb) { return cb(err, false); } }
+
     var col = db.collection(mp.NAME);
     col.findOne(query || {}, function(err, results) {
       db.close();
@@ -149,10 +159,12 @@ MPill.prototype.FindOne = function(query, cb) {
 MPill.prototype.FindByObjectId = function(query, key, cb) {
   var mp = this;
   this.Connect(function(err, db){
+    if(err){ if(cb) { return cb(err, false); } }
+
     try{
       query[key] = new ObjectID.createFromHexString(query[key]);
     }catch(e){
-      return cb('MPill: "' + key + '" value in query must be a valid hex ObjectId.');
+      return cb({'code': 'NotValidHex', 'message': '' + key + ' must be a valid hex'});
     }
 
     var col = db.collection(mp.NAME);
@@ -167,6 +179,8 @@ MPill.prototype.FindByObjectId = function(query, key, cb) {
 
 MPill.prototype.DropDB = function(cb) {
   this.Connect(function(err, db){
+    if(err){ if(cb) { return cb(err, false); } }
+
     db.dropDatabase(function(err, results) {
       db.close();
       if(cb){
@@ -179,6 +193,8 @@ MPill.prototype.DropDB = function(cb) {
 MPill.prototype.CreateIndex = function(query, cb) {
   var mp = this;
   this.Connect(function(err, db){
+    if(err){ if(cb) { return cb(err, false); } }
+
     var col = db.collection(mp.NAME);
     col.createIndex(query, function(err, results) {
       db.close();
@@ -192,6 +208,8 @@ MPill.prototype.CreateIndex = function(query, cb) {
 MPill.prototype.DropIndex = function(query, cb) {
   var mp = this;
   this.Connect(function(err, db){
+    if(err){ if(cb) { return cb(err, false); } }
+
     var col = db.collection(mp.NAME)
     col.dropIndex(query, function(err, results) {
       db.close();
@@ -205,6 +223,8 @@ MPill.prototype.DropIndex = function(query, cb) {
 MPill.prototype.DropCollection = function(cb) {
   var mp = this;
   this.Connect(function(err, db){
+    if(err){ if(cb) { return cb(err, false); } }
+
     var col = db.collection(mp.NAME)
     col.drop(function(err, results) {
       db.close();
@@ -218,6 +238,8 @@ MPill.prototype.DropCollection = function(cb) {
 MPill.prototype.Count = function(query, cb) {
   var mp = this;
   this.Connect(function(err, db){
+    if(err){ if(cb) { return cb(err, false); } }
+
     var col = db.collection(mp.NAME);
     col.count(query, function(err, results) {
       db.close();
@@ -232,6 +254,8 @@ MPill.prototype.Count = function(query, cb) {
 MPill.prototype.CreateCollection = function(cb) {
   var mp = this;
   this.Connect(function(err, db){
+    if(err){ if(cb) { return cb(err, false); } }
+
     db.createCollection(mp.NAME, function(err, collection) {
       db.close();
       if(cb){
