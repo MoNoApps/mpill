@@ -10,7 +10,7 @@ var url = 'mongodb://127.0.0.1/mpill';
 users = new MPill('users', url);
 ````
 
-Multiple models at a once
+Multiple models at once
 ===
 models.js
 ````js
@@ -54,25 +54,27 @@ API reference
 ===
 ````js
 'Generic methods'
-users.Connect(cb)
-users.DropDB(cb)
+model.Connect(cb)
+model.DropDB(cb)
 
 'Common methods'
-users.Insert(doc, cb)
-users.Update(query, doc, concern, cb)
-users.Remove(query, cb)
-users.Find(query, cb, project, options, limit, sort)
-users.FindOne(query, cb)
-users.FindByObjectId(query, key, cb)
-users.CreateIndex(query, cb)
-users.DropCollection(query, cb)
-users.DropIndex(query, cb)
-users.CreateCollection(cb)
-users.Count(query, cb)
+model.Insert(doc, cb)
+model.Update(query, doc, concern, cb)
+model.Remove(query, cb)
+model.Find(query, cb, project, options, limit, sort)
+model.FindOne(query, cb)
+model.CreateIndex(query, cb)
+model.DropCollection(query, cb)
+model.DropIndex(query, cb)
+model.CreateCollection(cb)
+model.Count(query, cb)
+
+'Special methods'
+model.FindByObjectId(query, key, cb)
 ````
 
 Test with tpill
-==
+===
 Running [CRUD sample](example/crud.js)
 ````bash
 npm install
@@ -92,6 +94,9 @@ Results:
 
 Statistics: {"pass":8,"fail":0,"warn":0}
 ````
+RESTful API sample
+==
+Clone [deck tool](https://github.com/MoNoApps/deck) to see a restify implementation.
 
 Test with mocha
 ===
