@@ -1,6 +1,6 @@
 {
   "name": "mpill",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "MoNoApps MongoDB Pill",
   "main": "mpill.js",
   "scripts": {
@@ -11,9 +11,10 @@
     "url": "git://github.com/MoNoApps/mpill.git"
   },
   "keywords": [
-    "mongodb",
-    "MPill",
-    "mna"
+    "mongo",
+    "nosql",
+    "model",
+    "query"
   ],
   "dependencies": {
     "mongodb": "*",
