@@ -37,10 +37,15 @@ companies.CreateCollection(function(err, collection){
             companies.Count({}, function(err,results){
               if (err){ return console.log(err); }
               tpill.create(1, results, 'Count', true);
-              tpill.create('number', typeof results, 'Finish Task', true);
 
-              tpill.run(function(){
-                process.exit()
+              companies.DropDB(function(err,results){
+                console.log(results);
+                if (err){ return console.log(err); }
+                tpill.create(true, results, 'DropDB', true);
+                
+                tpill.run(function(){
+                  process.exit()
+                });
               });
             });
           });
