@@ -70,7 +70,6 @@ model.CreateCollection(cb)
 model.Count(query, cb)
 
 'Special methods'
-model.DropDB(cb);
 model.FindByObjectId(query, key, cb)
 ````
 
