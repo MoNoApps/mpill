@@ -16,8 +16,8 @@ var MPill = function(name, URL){
  */
 MPill.prototype.Connect = function(cb) {
   var mp = this;
-  var ERR_DB_OBJECT = {'code': 'DBNotFound', 'message': 'DB object not found'};
-  var ERR_CONECTION = {'code': 'ConnectionNotEstablished', 'message': 'Connection to ' + this.URL + ' can not be established.' };
+  var ERR_DB_OBJECT = {code: 'DBNotFound', message: 'DB object not found'};
+  var ERR_CONECTION = {code: 'ConnectionNotEstablished', message: 'Connection to ' + this.URL + ' can not be established.' };
 
   try{
     MongoClient.connect(mp.URL, function(err, db) {
@@ -96,7 +96,7 @@ MPill.prototype.Update = function(query, doc, concern, cb) {
 
     var col = db.collection(mp.NAME);
     if (!query || !doc){
-      return cb({error: {message: 'Query and Doc are required.'}})
+      return cb( {code: 'MissingParam', message: 'Query and Doc are required.'});
     }
 
     col.update(query, doc, concern || {w: 1}, function(err, results) {
