@@ -177,6 +177,31 @@ MPill.prototype.FindByObjectId = function(query, key, cb) {
   })
 };
 
+MPill.prototype.UpdateByObjectId = function(query, doc, key, concern, cb) {
+  var mp = this;
+  this.Connect(function(err, db){
+    if(err){ if(cb) { return cb(err, false); } }
+
+    var col = db.collection(mp.NAME);
+    if (!query || !doc || !key){
+      return cb( {code: 'MissingParam', message: 'Query, Doc and Key are required.'});
+    }
+
+    try{
+      query[key] = new ObjectID.createFromHexString(query[key]);
+    }catch(e){
+      return cb({'code': 'NotValidHex', 'message': '' + key + ' must be a valid hex'});
+    }
+
+    col.update(query, doc, concern || {w: 1}, function(err, results) {
+      db.close();
+      if(cb){
+        cb(err, results);
+      }
+    });
+  })
+};
+
 MPill.prototype.DropDB = function(cb) {
   this.Connect(function(err, db){
     if(err){ if(cb) { return cb(err, false); } }

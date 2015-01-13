@@ -34,6 +34,8 @@ companies.CreateCollection(function(err, collection){
             if (err){ return console.log(err); }
             tpill.create('MoNoApps LLC', results.name, 'FindByObjectId', true);
 
+          //TODO: Add test for UpdateByObjectId(query, doc, key)
+
             companies.Count({}, function(err,results){
               if (err){ return console.log(err); }
               tpill.create(1, results, 'Count', true);
