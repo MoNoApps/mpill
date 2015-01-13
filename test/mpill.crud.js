@@ -61,4 +61,9 @@ describe('MPill functions', function(){
       assert.ok(users.FindByObjectId);
     })
   })
+  describe('method update by objectId', function(){
+    it('should exists update by objectId function', function(){
+      assert.ok(users.UpdateByObjectId);
+    })
+  })
 })
