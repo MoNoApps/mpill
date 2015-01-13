@@ -34,19 +34,23 @@ companies.CreateCollection(function(err, collection){
             if (err){ return console.log(err); }
             tpill.create('MoNoApps LLC', results.name, 'FindByObjectId', true);
 
-          //TODO: Add test for UpdateByObjectId(query, doc, key)
-
-            companies.Count({}, function(err,results){
+            hex_value = myCompany._id.toString();
+            companies.UpdateByObjectId({'_id': hex_value}, { $set : {name: 'MoNoApps LLC CO'} },  '_id',function(err,results){
               if (err){ return console.log(err); }
-              tpill.create(1, results, 'Count', true);
+              tpill.create(1, results, 'UpdateByObjectId', true);
 
-              companies.DropDB(function(err,results){
-                console.log(results);
+              companies.Count({}, function(err,results){
                 if (err){ return console.log(err); }
-                tpill.create(true, results, 'DropDB', true);
-                
-                tpill.run(function(){
-                  process.exit()
+                tpill.create(1, results, 'Count', true);
+
+                companies.DropDB(function(err,results){
+                  console.log(results);
+                  if (err){ return console.log(err); }
+                  tpill.create(true, results, 'DropDB', true);
+
+                  tpill.run(function(){
+                    process.exit()
+                  });
                 });
               });
             });
