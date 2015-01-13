@@ -71,6 +71,7 @@ model.Count(query, cb)
 
 'Special methods'
 model.FindByObjectId(query, key, cb)
+model.UpdateByObjectId(query, doc, key, cb)
 ````
 
 Test with tpill
