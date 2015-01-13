@@ -44,7 +44,6 @@ companies.CreateCollection(function(err, collection){
                 tpill.create(1, results, 'Count', true);
 
                 companies.DropDB(function(err,results){
-                  console.log(results);
                   if (err){ return console.log(err); }
                   tpill.create(true, results, 'DropDB', true);
 
