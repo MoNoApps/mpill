@@ -90,8 +90,9 @@ Results:
 ✓ Update
 ✓ FindOne
 ✓ FindByObjectId
+✓ UpdateByObjectId
 ✓ Count
-✓ Finish Task
+✓ DropDB
 
 Statistics: {"pass":8,"fail":0,"warn":0}
 ````
@@ -104,7 +105,7 @@ Test with mocha
 Keeps definded functions.
 ```bash
 mocha
-13 passing (9ms)
+14 passing (8ms)
 ```
 
 About concern
