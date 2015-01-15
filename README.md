@@ -94,7 +94,7 @@ Results:
 ✓ Count
 ✓ DropDB
 
-Statistics: {"pass":8,"fail":0,"warn":0}
+Statistics: {"pass":9,"fail":0,"warn":0}
 ````
 RESTful API sample
 ==
