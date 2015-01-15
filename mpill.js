@@ -202,6 +202,27 @@ MPill.prototype.UpdateByObjectId = function(query, doc, key, concern, cb) {
   })
 };
 
+MPill.prototype.RemoveByObjectId = function(query, key, cb) {
+  var mp = this;
+  this.Connect(function(err, db){
+    if(err){ if(cb) { return cb(err, false); } }
+
+    try{
+      query[key] = new ObjectID.createFromHexString(query[key]);
+    }catch(e){
+      return cb({'code': 'NotValidHex', 'message': '' + key + ' must be a valid hex'});
+    }
+    
+    var col = db.collection(mp.NAME);
+    col.remove(query, function(err, results) {
+      db.close();
+      if(cb){
+        cb(err, results);
+      }
+    });
+  })
+};
+
 MPill.prototype.DropDB = function(cb) {
   this.Connect(function(err, db){
     if(err){ if(cb) { return cb(err, false); } }

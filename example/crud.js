@@ -4,6 +4,7 @@ var tpill = new TPill();
 var url = 'mongodb://127.0.0.1/mpill';
 var companies = new MPill('verbose', url);
 var myCompany = {name: 'MoNoApps'};
+var secondCompany = {name: 'MPill Tool'};
 
 // Ensure collection exists before drop it
 companies.CreateCollection(function(err, collection){
@@ -39,16 +40,27 @@ companies.CreateCollection(function(err, collection){
               if (err){ return console.log(err); }
               tpill.create(1, results, 'UpdateByObjectId', true);
 
-              companies.Count({}, function(err,results){
+              companies.Insert(secondCompany,function(err,results){
                 if (err){ return console.log(err); }
-                tpill.create(1, results, 'Count', true);
+                secondCompany = results[0];
 
-                companies.DropDB(function(err,results){
+                hex_value = secondCompany._id.toString();
+                companies.RemoveByObjectId({'_id': hex_value},'_id',function(err,results){
                   if (err){ return console.log(err); }
-                  tpill.create(true, results, 'DropDB', true);
+                  tpill.create(1, results, 'RemoveByObjectId', true);
 
-                  tpill.run(function(){
-                    process.exit()
+                  companies.Count({}, function(err,results){
+                    if (err){ return console.log(err); }
+                    tpill.create(1, results, 'Count', true);
+
+                    companies.DropDB(function(err,results){
+                      if (err){ return console.log(err); }
+                      tpill.create(true, results, 'DropDB', true);
+
+                      tpill.run(function(){
+                        process.exit()
+                      });
+                    });
                   });
                 });
               });

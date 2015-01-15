@@ -72,6 +72,7 @@ model.Count(query, cb)
 'Special methods'
 model.FindByObjectId(query, key, cb)
 model.UpdateByObjectId(query, doc, key, cb)
+model.RemoveByObjectId(query, key, cb)
 ````
 
 Test with tpill
@@ -91,10 +92,11 @@ Results:
 ✓ FindOne
 ✓ FindByObjectId
 ✓ UpdateByObjectId
+✓ RemoveByObjectId
 ✓ Count
 ✓ DropDB
 
-Statistics: {"pass":9,"fail":0,"warn":0}
+Statistics: {"pass":10,"fail":0,"warn":0}
 ````
 RESTful API sample
 ==
@@ -105,7 +107,7 @@ Test with mocha
 Keeps definded functions.
 ```bash
 mocha
-14 passing (8ms)
+15 passing (10ms)
 ```
 
 About concern
