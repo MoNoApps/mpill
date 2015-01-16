@@ -58,7 +58,7 @@ companies.CreateCollection(function(err, collection){
                       tpill.create(true, results, 'DropDB', true);
 
                       tpill.run(function(){
-                        process.exit()
+                        process.exit();
                       });
                     });
                   });

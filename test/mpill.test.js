@@ -10,11 +10,11 @@ describe('describe MPill', function(){
   describe('#MPill()', function(){
     it('users should instance of MPill', function(){
       assert.ok(users instanceof MPill);
-    })
+    });
 
     it('others should instance of MPill', function(){
       assert.ok(others instanceof MPill);
-    })
-  })
+    });
+  });
 
-})
+});

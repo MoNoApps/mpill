@@ -78,13 +78,13 @@ model.RemoveByObjectId(query, key, cb)
 Test with tpill
 ===
 Running [CRUD sample](example/crud.js)
-````bash
+````sh
 npm install
 // mongod --dbpath $HOME/data/mpill &
 node example/crud.js
 ````
 Results:
-````shell
+````sh
 ✓ CreateCollection
 ✓ DropCollection
 ✓ Insert
@@ -105,9 +105,18 @@ Clone [deck tool](https://github.com/MoNoApps/deck) to see a restify implementat
 Test with mocha
 ===
 Keeps definded functions.
-```bash
+```sh
 mocha
 15 passing (10ms)
+```
+
+Code quality with gulp-jshint
+===
+
+```sh
+npm install gulp
+npm install gulp-jshint
+gulp
 ```
 
 About concern

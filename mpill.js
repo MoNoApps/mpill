@@ -77,7 +77,7 @@ MPill.prototype.Insert = function(doc, cb) {
         cb(err, results);
       }
     });
-  })
+  });
 };
 
 /**
@@ -105,7 +105,7 @@ MPill.prototype.Update = function(query, doc, concern, cb) {
         cb(err, results);
       }
     });
-  })
+  });
 };
 
 MPill.prototype.Remove = function(query, cb) {
@@ -120,7 +120,7 @@ MPill.prototype.Remove = function(query, cb) {
         cb(err, results);
       }
     });
-  })
+  });
 };
 
 MPill.prototype.Find = function(query, cb, project, options, limit, sort) {
@@ -128,7 +128,7 @@ MPill.prototype.Find = function(query, cb, project, options, limit, sort) {
   this.Connect(function(err, db){
     if(err){ if(cb) { return cb(err, false); } }
 
-    var col = db.collection(mp.NAME)
+    var col = db.collection(mp.NAME);
     col.find(query || {}, project || {}, options || {w: 1})
        .limit(limit || 10)
        .sort(sort || {_id: 1})
@@ -138,7 +138,7 @@ MPill.prototype.Find = function(query, cb, project, options, limit, sort) {
             cb(err, results);
           }
     });
-  })
+  });
 };
 
 MPill.prototype.FindOne = function(query, cb) {
@@ -153,7 +153,7 @@ MPill.prototype.FindOne = function(query, cb) {
         cb(err, results);
       }
     });
-  })
+  });
 };
 
 MPill.prototype.FindByObjectId = function(query, key, cb) {
@@ -174,7 +174,7 @@ MPill.prototype.FindByObjectId = function(query, key, cb) {
         cb(err, results);
       }
     });
-  })
+  });
 };
 
 MPill.prototype.UpdateByObjectId = function(query, doc, key, concern, cb) {
@@ -199,7 +199,7 @@ MPill.prototype.UpdateByObjectId = function(query, doc, key, concern, cb) {
         cb(err, results);
       }
     });
-  })
+  });
 };
 
 MPill.prototype.RemoveByObjectId = function(query, key, cb) {
@@ -212,7 +212,7 @@ MPill.prototype.RemoveByObjectId = function(query, key, cb) {
     }catch(e){
       return cb({'code': 'NotValidHex', 'message': '' + key + ' must be a valid hex'});
     }
-    
+
     var col = db.collection(mp.NAME);
     col.remove(query, function(err, results) {
       db.close();
@@ -220,7 +220,7 @@ MPill.prototype.RemoveByObjectId = function(query, key, cb) {
         cb(err, results);
       }
     });
-  })
+  });
 };
 
 MPill.prototype.DropDB = function(cb) {
@@ -233,7 +233,7 @@ MPill.prototype.DropDB = function(cb) {
         cb(err, results);
       }
     });
-  })
+  });
 };
 
 MPill.prototype.CreateIndex = function(query, cb) {
@@ -248,7 +248,7 @@ MPill.prototype.CreateIndex = function(query, cb) {
         cb(err, results);
       }
     });
-  })
+  });
 };
 
 MPill.prototype.DropIndex = function(query, cb) {
@@ -256,14 +256,14 @@ MPill.prototype.DropIndex = function(query, cb) {
   this.Connect(function(err, db){
     if(err){ if(cb) { return cb(err, false); } }
 
-    var col = db.collection(mp.NAME)
+    var col = db.collection(mp.NAME);
     col.dropIndex(query, function(err, results) {
       db.close();
       if(cb){
         cb(err, results);
       }
     });
-  })
+  });
 };
 
 MPill.prototype.DropCollection = function(cb) {
@@ -271,14 +271,14 @@ MPill.prototype.DropCollection = function(cb) {
   this.Connect(function(err, db){
     if(err){ if(cb) { return cb(err, false); } }
 
-    var col = db.collection(mp.NAME)
+    var col = db.collection(mp.NAME);
     col.drop(function(err, results) {
       db.close();
       if(cb){
         cb(err, results);
       }
     });
-  })
+  });
 };
 
 MPill.prototype.Count = function(query, cb) {
@@ -293,7 +293,7 @@ MPill.prototype.Count = function(query, cb) {
         cb(err, results);
       }
     });
-  })
+  });
 };
 
 // Prevents "MongoError: ns not found"
@@ -308,7 +308,7 @@ MPill.prototype.CreateCollection = function(cb) {
         cb(err, collection);
       }
     });
-  })
+  });
 };
 
 module.exports.MPill = MPill;
