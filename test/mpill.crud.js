@@ -71,4 +71,9 @@ describe('MPill functions', function(){
       assert.ok(users.RemoveByObjectId);
     });
   });
+  describe('method parse ObjectID', function(){
+    it('should exists parseOID', function(){
+      assert.ok(users.parseOID);
+    });
+  });
 });

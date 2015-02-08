@@ -27,24 +27,20 @@ for(var i in colls){
 userController.js (let's said this is for express route)
 ````js
 var models = require('./models');
-
 var Users = {};
 
 Users.List = function(req, res){
-	models.users.FindOne({'email': 'rrunner@acme.co'}, function(err, rrunner){
-		if(err){ return res.status(500); }
-
-		var query = { user_id: rrunner._id, label: 'open' };
-
-		models.tasks.Find(query, function(err, toDo){
-			if(err){ return res.status(500); }
-
-			res.json({
-				user: rrunner,
-				tasks: toDo
-			});
-		});
-	});
+  models.users.FindOne({'email': 'rrunner@acme.co'}, function(err, rrunner){
+    if(err){ return res.status(500); }
+    var query = { user_id: rrunner._id, label: 'open' };
+      models.tasks.Find(query, function(err, toDo){
+        if(err){ return res.status(500); }
+        res.json({
+          user: rrunner,
+          tasks: toDo
+        });
+      });
+    });
 };
 ...
 module.exports.Users = Users;
@@ -73,6 +69,7 @@ model.Count(query, cb)
 model.FindByObjectId(query, key, cb)
 model.UpdateByObjectId(query, doc, key, cb)
 model.RemoveByObjectId(query, key, cb)
+model.parseOID(value, cb)
 ````
 
 Test with tpill

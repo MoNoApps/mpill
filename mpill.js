@@ -1,11 +1,12 @@
 // modules
 var MongoClient = require('mongodb').MongoClient;
-var ObjectID    = require('mongodb').ObjectID;
 
-// ERRRORS
+// helpers
+var parseOID = require('./helpers/parseOID');
+
+// errors
 var ERR_CONECTION = {code: 'ConnectionNotEstablished', message: 'Connection to db can not be established.' };
 var ERR_MISSING_P = {code: 'MissingParam', message: 'Query and Doc are required.'};
-var ERR_BAD_HEX   = {'code': 'NotValidHex', 'message': 'Key must be a valid hex.'};
 
 /**
  * MPill Object
@@ -131,11 +132,7 @@ MPill.prototype.FindByObjectId = function(query, key, cb) {
   this.Connect(function(err, db, name){
     if(err){ if(cb) { return cb(err, false); } }
 
-    try{
-      query[key] = new ObjectID.createFromHexString(query[key]);
-    }catch(e){
-      return cb( ERR_BAD_HEX );
-    }
+    query[key] = parseOID(query[key], cb);
 
     var col = db.collection(name);
     col.findOne(query || {}, function(err, results) {
@@ -156,11 +153,7 @@ MPill.prototype.UpdateByObjectId = function(query, doc, key, concern, cb) {
       return cb( {code: 'MissingParam', message: 'Query, Doc and Key are required.'});
     }
 
-    try{
-      query[key] = new ObjectID.createFromHexString(query[key]);
-    }catch(e){
-      return cb( ERR_BAD_HEX );
-    }
+    query[key] = parseOID(query[key], cb);
 
     col.update(query, doc, concern || {w: 1}, function(err, results) {
       db.close();
@@ -175,11 +168,7 @@ MPill.prototype.RemoveByObjectId = function(query, key, cb) {
   this.Connect(function(err, db, name){
     if(err){ if(cb) { return cb(err, false); } }
 
-    try{
-      query[key] = new ObjectID.createFromHexString(query[key]);
-    }catch(e){
-      return cb( ERR_BAD_HEX );
-    }
+    query[key] = parseOID(query[key], cb);
 
     var col = db.collection(name);
     col.remove(query, function(err, results) {
@@ -273,5 +262,7 @@ MPill.prototype.CreateCollection = function(cb) {
     });
   });
 };
+
+MPill.prototype.parseOID = parseOID;
 
 module.exports.MPill = MPill;
