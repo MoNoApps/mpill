@@ -263,6 +263,5 @@ MPill.prototype.CreateCollection = function(cb) {
   });
 };
 
-MPill.prototype.parseOID = parseOID;
-
 module.exports.MPill = MPill;
+module.exports.parseOID = parseOID;

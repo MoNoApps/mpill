@@ -1,4 +1,5 @@
 var MPill = require('../mpill.js').MPill;
+var parseOID = require('../mpill.js').parseOID;
 var assert = require("assert");
 
 var url = 'mongodb://127.0.0.1/mpill';
@@ -73,7 +74,7 @@ describe('MPill functions', function(){
   });
   describe('method parse ObjectID', function(){
     it('should exists parseOID', function(){
-      assert.ok(users.parseOID);
+      assert.ok(parseOID);
     });
   });
 });
