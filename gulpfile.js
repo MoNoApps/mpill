@@ -6,7 +6,8 @@ var jshint = require('gulp-jshint');
 var scripts = [
 './mpill.js',
 './test/*.js',
-'./example/*.js'
+'./example/*.js',
+'./api/*.js'
 ];
 
 gulp.task('lint', function() {

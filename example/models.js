@@ -3,14 +3,22 @@
  * we can use a for loop to export every new model.
  **/
 //models.js
-var MPill = require('../mpill.js').MPill;
-var url   = 'mongodb://127.0.0.1/collectiongroup';
+var mpill = require('../index.js');
+var url = 'mongodb://127.0.0.1/collectiongroup';
+var next = function(a, b){
+  console.log(a, b.length);
+};
 var colls = ['users','groups','roles','tasks'];
 
 //Exports every new collection
 for(var c in colls){
   if (colls.hasOwnProperty(c)) {
-    module.exports[colls[c]] = new MPill(colls[c], url);
+    var opt = {
+      name: 'cname',
+      url: url,
+      cb: next
+    };
+    module.exports[colls[c]] = mpill.find(opt);
   }
 }
 

@@ -1,0 +1,13 @@
+var connect = require('./connect');
+
+var count = function(o) {
+  connect(o, function(err, db){
+    var col = db.collection(o.name);
+    col.count(o.query, function(err, results) {
+      db.close();
+      o.cb(err, results);
+    });
+  });
+};
+
+module.exports = count;

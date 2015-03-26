@@ -1,31 +1,35 @@
 //Vars
-var MPill     = require('../mpill.js').MPill;
-var url       = 'mongodb://127.0.0.1/mpill';
-var users     = new MPill('users', url);
-var groups    = new MPill('groups', url);
-var companies = new MPill('companies', url);
+var models = require('../index.js');
+var url = 'mongodb://127.0.0.1/mpill';
+var next = function(){};
 
 /**
-  * This test inserts in async way 10 models into mpill db.
+  * This test inserts in async way 100 models into mpill db.
   */
 var doUsers = function(){
-  for(var i = 0; i < 10; i++){
-    var doc = {name: "user",version: i};
-    users.Insert(doc);
+  for(var i = 0; i < 100; i++){
+    var u = { url: url, cb: next};
+    u.name = 'users';
+    u.doc = {name: "user",version: i};
+    models.insert(u);
   }
 };
 
 var doGroups = function(){
-  for(var i = 0; i < 10; i++){
-    var doc = {name: "group",version: i};
-    groups.Insert(doc);
+  for(var i = 0; i < 100; i++){
+    var g = { url: url, cb: next};
+    g.name = 'groups';
+    g.doc = {name: "group",version: i};
+    models.insert(g);
   }
 };
 
 var doCompanies = function(){
-  for(var i = 0; i < 10; i++){
-    var doc = {name: "company",version: i};
-    companies.Insert(doc);
+  for(var i = 0; i < 100; i++){
+    var c = { url: url, cb: next};
+    c.name = 'companies';
+    c.doc = {name: "company",version: i};
+    models.insert(c);
   }
 };
 
