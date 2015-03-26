@@ -1,4 +1,3 @@
-var connect = require('./connect');
 var update = require('./update');
 
 var set = function(o) {

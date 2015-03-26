@@ -9,7 +9,7 @@ var updateByObjectId = function(o) {
       return o.cb( {code: 'MissingParam', message: 'Query, Doc and Key are required.'});
     }
 
-    o.query[key] = parseOID(query[key]);
+    o.query[o.key] = parseOId(o.query[o.key]);
 
     col.update(o.query, o.doc, o.concern || {w: 1}, function(err, results) {
       db.close();

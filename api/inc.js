@@ -1,10 +1,8 @@
-var connect = require('./connect');
 var update = require('./update');
 
 var inc = function(o) {
-  var k = o.key;
-  var q = o.qty;
-  o.doc = {$inc: {k: q}};
+  o.doc = {$inc: {}};
+  o.doc.$inc[o.key] = o.qty;
   update(o);
 };
 

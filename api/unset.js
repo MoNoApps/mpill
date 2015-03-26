@@ -1,10 +1,9 @@
-var connect = require('./connect');
 var update = require('./update');
 
-var set = function(o) {
-  var k = o.key;
-  o.doc = { $unset: {k: 1} };
+var unset = function(o) {
+  o.doc = {$unset: {}};
+  o.doc.$unset[o.key] = 1;
   update(o);
 };
 
-module.exports = set;
+module.exports = unset;
