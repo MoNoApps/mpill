@@ -12,9 +12,9 @@ var myCompany = {name: 'MoNoApps'};
 var secondCompany = {name: 'MPill Tool'};
 
 // Ensure collection exists before drop it
-models.create(companiesOpt, function(err){
+models.create(companiesOpt, function(err, col){
   if (err){ return console.log(err); }
-  models.create(true, results, 'CreateCollection', true);
+  models.create(true, col, 'CreateCollection', true);
 
   // Clean collection
   models.drop(companiesOpt, function(err,results){
