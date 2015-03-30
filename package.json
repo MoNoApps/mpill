@@ -1,8 +1,8 @@
 {
   "name": "mpill",
-  "version": "0.5.0",
-  "description": "MoNoApps MongoDB Pill",
-  "main": "mpill.js",
+  "version": "0.6.1",
+  "description": "Instant models for mongodb",
+  "main": "index.js",
   "scripts": {
     "test": "mocha"
   },
@@ -14,7 +14,10 @@
     "mongo",
     "nosql",
     "model",
-    "query"
+    "query",
+    "abbrs",
+    "alias",
+    "insta"
   ],
   "dependencies": {
     "mongodb": "*",

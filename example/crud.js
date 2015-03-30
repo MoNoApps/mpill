@@ -1,73 +1,118 @@
-var MPill = require('../mpill.js').MPill;
+var MPill = require('../index.js');
+var url = 'mongodb://127.0.0.1/mpill';
+
 var TPill = require('tpill').TPill;
 var tpill = new TPill();
-var url = 'mongodb://127.0.0.1/mpill';
-var companies = new MPill('verbose', url);
+
+var companies = new MPill({ name: 'companies', url: url});
 var myCompany = {name: 'MoNoApps'};
 var secondCompany = {name: 'MPill Tool'};
 
-// Ensure collection exists before drop it
-companies.CreateCollection(function(err, collection){
-  if (err){ return console.log(err); }
-  tpill.create(companies.NAME, collection.collectionName, 'CreateCollection', true);
-
-  // Clean collection
-  companies.DropCollection(function(err,results){
-    if (err){ return console.log(err); }
-    tpill.create(true, results, 'DropCollection', true);
-
-    companies.Insert(myCompany,function(err,results){
-      if (err){ return console.log(err); }
-      myCompany =  results[0];
-      tpill.create(myCompany.name, results[0].name, 'Insert', true);
-
-      companies.Update({'_id': myCompany._id}, { $set : {name: 'MoNoApps LLC', upgrade: true} }, function(err,results){
-        if (err){ return console.log(err); }
-        tpill.create(1, results, 'Update', false);
-
-        companies.FindOne({'_id': myCompany._id}, function(err,results){
-          if (err){ return console.log(err); }
-          tpill.create('MoNoApps LLC', results.name, 'FindOne', true);
-
-          //var hex_value = '3ced938e'; this throws an error because is notinvalid
-          var hex_value = myCompany._id.toString();
-          companies.FindByObjectId({'_id': hex_value}, '_id', function(err,results){
-            if (err){ return console.log(err); }
-            tpill.create('MoNoApps LLC', results.name, 'FindByObjectId', true);
-
-            hex_value = myCompany._id.toString();
-            companies.UpdateByObjectId({'_id': hex_value}, { $set : {name: 'MoNoApps LLC CO'} },  '_id',function(err,results){
-              if (err){ return console.log(err); }
-              tpill.create(1, results, 'UpdateByObjectId', true);
-
-              companies.Insert(secondCompany,function(err,results){
-                if (err){ return console.log(err); }
-                secondCompany = results[0];
-
-                hex_value = secondCompany._id.toString();
-                companies.RemoveByObjectId({'_id': hex_value},'_id',function(err,results){
-                  if (err){ return console.log(err); }
-                  tpill.create(1, results, 'RemoveByObjectId', true);
-
-                  companies.Count({}, function(err,results){
-                    if (err){ return console.log(err); }
-                    tpill.create(1, results, 'Count', true);
-
-                    companies.DropDB(function(err,results){
-                      if (err){ return console.log(err); }
-                      tpill.create(true, results, 'DropDB', true);
-
-                      tpill.run(function(){
-                        process.exit();
-                      });
-                    });
-                  });
-                });
-              });
-            });
-          });
-        });
-      });
-    });
+var endTest = function(){
+  tpill.run(function(){
+    process.exit();
   });
-});
+};
+
+var ackCreate = function(err, col){
+  tpill.create('companies', col.s.name, 'create', true);
+
+  companies.drop({doc: myCompany, cb: ackDrop});
+};
+
+var ackDrop = function(err, results){
+  tpill.create(true, results, 'drop', true);
+
+  companies.insert({doc: myCompany, cb: ackInsert});
+};
+
+var ackInsert = function(err, results){
+  var cname = results.ops? results.ops[0].name: results[0].name;
+  tpill.create(myCompany.name, cname, 'insert', true);
+
+  var opts = {
+    query: {'_id': myCompany._id},
+    doc: { $set : {name: 'MoNoApps LLC', upgrade: true} },
+    cb: ackUpdate
+  };
+  companies.update(opts);
+};
+
+var ackUpdate = function(err, results){
+  var resp = results.result? results.result.ok: results;
+  tpill.create(1, resp, 'update', true);
+
+  var opts = {
+    query: {'_id': myCompany._id},
+    cb: ackFindOne
+  };
+
+  companies.findOne(opts);
+};
+
+var ackFindOne = function(err, results){
+  tpill.create('MoNoApps LLC', results.name, 'findOne', true);
+
+  var hex_value = myCompany._id.toString();
+  var opts = {
+    query: {'_id': hex_value},
+    key: '_id',
+    cb: ackFindByObjectId
+  };
+
+  companies.findByObjectId(opts);
+};
+
+var ackFindByObjectId = function(err, results){
+  tpill.create('MoNoApps LLC', results.name, 'findByObjectId', true);
+
+  var hex_value = myCompany._id.toString();
+  var opts = {
+    query: {'_id': hex_value},
+    key: '_id',
+    doc: { $set : {name: 'MoNoApps LLC CO'} },
+    cb: ackUpdateByObjectId
+  };
+
+  companies.updateByObjectId(opts);
+};
+
+var ackUpdateByObjectId = function(err, results){
+  var resp = results.result? results.result.ok: results;
+  tpill.create(1, resp, 'updateByObjectId', true);
+
+  var hex_value = myCompany._id.toString();
+  var opts = {
+    query: {'_id': hex_value},
+    key: '_id',
+    doc: { $set : {name: 'MoNoApps LLC CO'} },
+    cb: ackRemoveByObjectId
+  };
+
+  companies.removeByObjectId(opts);
+};
+
+var ackRemoveByObjectId = function(err, results){
+  var resp = results.result? results.result.ok: results;
+  tpill.create(1, resp, 'removeByObjectId', true);
+
+  var opts = { cb: ackCount };
+
+  companies.count(opts);
+};
+
+var ackCount = function(err, results){
+  tpill.create(0, results, 'count', true);
+
+  var opts = { cb: ackDropDatabase };
+
+  companies.dropDatabase(opts);
+};
+
+var ackDropDatabase = function(err, results){
+  tpill.create(true, results, 'dropDatabase', true);
+
+  endTest();
+};
+
+companies.create({doc: myCompany, cb: ackCreate});

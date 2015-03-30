@@ -1,27 +1,18 @@
-/**
- * In order to simplify the definition process
- * we can use a for loop to export every new model.
- **/
-//models.js
-var MPill = require('../mpill.js').MPill;
-var url   = 'mongodb://127.0.0.1/collectiongroup';
+var models = require('../index.js');
+var url = 'mongodb://127.0.0.1/decktools';
 var colls = ['users','groups','roles','tasks'];
+var abc = function(err, response){
+  console.log(err, response.length);
+};
 
-//Exports every new collection
-for(var c in colls){
+for (var c in colls) {
   if (colls.hasOwnProperty(c)) {
-    module.exports[colls[c]] = new MPill(colls[c], url);
+    var options = {
+      url: url,
+      cb: abc,
+      name: colls[c]
+    };
+
+    module.exports[colls[c]] = models.find(options);
   }
 }
-
-//controler.js
-/**
-var models = require('.../models');
-var users  = models.users;
-var groups = models.groups;
-var roles  = models.roles;
-var tasks  = models.tasks;
-
-...
-
-**/
