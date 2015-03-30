@@ -1,80 +1,79 @@
-var MPill = require('../mpill.js').MPill;
-var parseOID = require('../mpill.js').parseOID;
+var MPill = require('../index.js');
 var assert = require("assert");
 
 var url = 'mongodb://127.0.0.1/mpill';
-var users = new MPill('users', url);
+var users = new MPill({ name: 'users', url: url });
 
 describe('MPill functions', function(){
 
   describe('#Connect()', function(){
     it('should have connect function', function(){
-      assert.ok(users.Connect);
+      assert.ok(users.connect);
     });
   });
   describe('#Insert()', function(){
     it('should insert without error', function(){
-      assert.ok(users.Insert);
+      assert.ok(users.insert);
     });
   });
   describe('method update', function(){
     it('should exists find update', function(){
-      assert.ok(users.Update);
+      assert.ok(users.update);
     });
   });
   describe('method remove', function(){
     it('should exists remove function', function(){
-      assert.ok(users.Remove);
+      assert.ok(users.remove);
     });
   });
   describe('method find', function(){
     it('should exists find function', function(){
-      assert.ok(users.Find);
+      assert.ok(users.find);
     });
   });
   describe('method find one', function(){
     it('should exists find one function', function(){
-      assert.ok(users.FindOne);
+      assert.ok(users.findOne);
     });
   });
   describe('method drop db', function(){
     it('should exists drop db function', function(){
-      assert.ok(users.DropDB);
+      assert.ok(users.drop);
     });
   });
   describe('method create index', function(){
     it('should exists create index function', function(){
-      assert.ok(users.CreateIndex);
+      assert.ok(users.createIndex);
     });
   });
   describe('method create index', function(){
     it('should exists drop collection function', function(){
-      assert.ok(users.DropCollection);
+      assert.ok(users.drop);
     });
   });
   describe('method drop index', function(){
     it('should exists drop index function', function(){
-      assert.ok(users.DropIndex);
+      assert.ok(users.dropIndex);
     });
   });
   describe('method find by objectId', function(){
     it('should exists find by objectId function', function(){
-      assert.ok(users.FindByObjectId);
+      assert.ok(users.findByObjectId);
     });
   });
   describe('method update by objectId', function(){
     it('should exists update by objectId function', function(){
-      assert.ok(users.UpdateByObjectId);
+      assert.ok(users.updateByObjectId);
     });
   });
   describe('method remove by objectId', function(){
     it('should exists remove by objectId function', function(){
-      assert.ok(users.RemoveByObjectId);
+      assert.ok(users.removeByObjectId);
     });
   });
   describe('method parse ObjectID', function(){
     it('should exists parseOID', function(){
-      assert.ok(parseOID);
+      assert.ok(users.parseOId);
     });
   });
 });

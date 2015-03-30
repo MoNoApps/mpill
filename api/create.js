@@ -1,12 +1,10 @@
-var connect = require('./connect');
-
-var count = function(o) {
-  connect(o, function(err, db){
-    db.createCollection(o.name, function(err, collection) {
-      db.close();
-      o.cb(err, collection);
+var create = function(props) {
+  this.connect(this.merge( this.props, props ), function(com){
+    com.db.createCollection(com.name, function(err, collection) {
+      com.db.close();
+      com.cb(err, collection);
     });
   });
 };
 
-module.exports = count;
+module.exports = create;

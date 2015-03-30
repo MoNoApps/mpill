@@ -1,11 +1,11 @@
-var connect = function(o, next){
+var connect = function(com, next) {
   var client = require('mongodb').MongoClient;
 
-  client.connect(o.url, function(err, db){
-    if(err && o.cb){
-      return o.cb(err, false);
-    }
-    next(err, db);
+  client.connect(com.url, function(err, db) {
+    com.err = err;
+    com.db = db || false;
+
+    next(com);
   });
 };
 

@@ -1,11 +1,10 @@
-var connect = require('./connect');
+var drop = function(props) {
 
-var drop = function(o) {
-  connect(o, function(err, db){
-    var col = db.collection(o.name);
-    col.drop(o.query, function(err, results) {
-      db.close();
-      o.cb(err, results);
+  this.connect(this.merge( this.props, props ), function(com){
+    var col = com.db.collection( com.name );
+    col.drop(function(err, results) {
+      com.db.close();
+      com.cb(err, results);
     });
   });
 };

@@ -1,126 +1,14 @@
-MPill
-===
-Coding apps without to be worried about data models.
+# MPill
+Wrap for mongodb driver.
 
-Single model instance
-===
-````js
-var MPill = require('mpill').MPill;
-var url = 'mongodb://127.0.0.1/mpill';
-users = new MPill('users', url);
-````
+## Versions
+* [v1.0.1]()
+* [v0.5.0]()
 
-Multiple models at once
-===
-models.js
-````js
-var MPill = require('../mpill.js').MPill;
-
-var colls = ['users','groups','roles','tasks'];
-var url   = 'mongodb://127.0.0.1/mydb';
-
-// exports each collection
-for(var i in colls){
-	module.exports[colls[i]] = new MPill(colls[i], url);
-}
-````
-userController.js (let's said this is for express route)
-````js
-var models = require('./models');
-var Users = {};
-
-Users.List = function(req, res){
-  models.users.FindOne({'email': 'rrunner@acme.co'}, function(err, rrunner){
-    if(err){ return res.status(500); }
-    var query = { user_id: rrunner._id, label: 'open' };
-      models.tasks.Find(query, function(err, toDo){
-        if(err){ return res.status(500); }
-        res.json({
-          user: rrunner,
-          tasks: toDo
-        });
-      });
-    });
-};
-...
-module.exports.Users = Users;
-````
-
-API reference
-===
-````js
-'Generic methods'
-model.Connect(cb)
-model.DropDB(cb)
-
-'Common methods'
-model.Insert(doc, cb)
-model.Update(query, doc, concern, cb)
-model.Remove(query, cb)
-model.Find(query, cb, project, options, limit, sort)
-model.FindOne(query, cb)
-model.CreateIndex(query, cb)
-model.DropCollection(query, cb)
-model.DropIndex(query, cb)
-model.CreateCollection(cb)
-model.Count(query, cb)
-
-'Special methods'
-model.FindByObjectId(query, key, cb)
-model.UpdateByObjectId(query, doc, key, cb)
-model.RemoveByObjectId(query, key, cb)
-model.parseOID(value, cb)
-````
-
-Test with tpill
-===
-Running [CRUD sample](example/crud.js)
-````sh
-npm install
-// mongod --dbpath $HOME/data/mpill &
-node example/crud.js
-````
-Results:
-````sh
-✓ CreateCollection
-✓ DropCollection
-✓ Insert
-✓ Update
-✓ FindOne
-✓ FindByObjectId
-✓ UpdateByObjectId
-✓ RemoveByObjectId
-✓ Count
-✓ DropDB
-
-Statistics: {"pass":10,"fail":0,"warn":0}
-````
-RESTful API sample
-==
-Clone [deck tool](https://github.com/MoNoApps/deck) to see a restify implementation.
-
-Test with mocha
-===
-Keeps definded functions.
-```sh
-mocha
-15 passing (10ms)
-```
-
-Code quality with gulp-jshint
-===
-
-```sh
-npm install gulp
-npm install gulp-jshint
-gulp
-```
-
-About concern
-===
-Full api doc: http://docs.mongodb.org/manual/reference/write-concern/
-
-````js
-//Sample with concern
-var concern = {w:1}; //Use primary node server
-````
+## Changelog v1.0.1
+Remove code complexity.
+Separate by function.
+Export all in one file.
+Add inc, set, unset, upsert functions.
+Use lower case instead.
+Remove prototype functions.

@@ -1,8 +1,11 @@
-var update = require('./update');
-
-var set = function(o) {
-  o.doc = { $set: o.add };
-  update(o);
+/**
+  * Rewrite old properties with new ones.
+  */
+var merge = function(props, newProps) {
+  for(var k in newProps){
+    props[k] = newProps[k];
+  }
+  return props;
 };
 
-module.exports = set;
+module.exports = merge;

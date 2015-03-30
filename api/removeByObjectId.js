@@ -1,5 +1,8 @@
-var remove = function(props) {
+var parseOId = require('./parseOId');
+
+var removeByObjectId = function(props) {
   this.connect(this.merge( this.props, props ), function(com){
+    com.query[com.key] = parseOId(com.query[com.key]);
     var col = com.db.collection(com.name);
     col.remove(com.query, function(err, results) {
       com.db.close();
@@ -8,4 +11,4 @@ var remove = function(props) {
   });
 };
 
-module.exports = remove;
+module.exports = removeByObjectId;

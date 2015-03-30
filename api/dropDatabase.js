@@ -1,10 +1,8 @@
-var connect = require('./connect');
-
-var dropDatabase = function(o) {
-  connect(function(err, db){
-    db.dropDatabase(function(err, results) {
-      db.close();
-      o.cb(err, results);
+var dropDatabase = function(props) {
+  this.connect(this.merge( this.props, props ),function(com) {
+    com.db.dropDatabase(function(err, results) {
+      com.db.close();
+      com.cb(err, results);
     });
   });
 };

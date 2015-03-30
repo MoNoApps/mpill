@@ -1,11 +1,9 @@
-var connect = require('./connect');
-
-var insert = function(o) {
-  connect(o, function(err, db){
-    var col = db.collection(o.name);
-    col.insert(o.doc, function(err, results) {
-      db.close();
-      o.cb(err, results);
+var insert = function(props) {
+  this.connect(this.merge( this.props, props ), function(com) {
+    var col = com.db.collection(com.name);
+    col.insert(com.doc, function(err, results) {
+      com.db.close();
+      com.cb(err, results);
     });
   });
 };

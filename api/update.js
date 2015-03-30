@@ -1,12 +1,9 @@
-var connect = require('./connect');
-
-// query, doc, concern, cb
-var update = function(o) {
-  connect(o, function(err, db){
-    var col = db.collection(o.name);
-    col.update(o.query, o.doc, o.concern || {w: 1}, function(err, results) {
-      db.close();
-      o.cb(err, results);
+var update = function(props) {
+  this.connect(this.merge( this.props, props ), function(com){
+    var col = com.db.collection(com.name);
+    col.update(com.query, com.doc, com.concern, function(err, results) {
+      com.db.close();
+      com.cb(err, results);
     });
   });
 };

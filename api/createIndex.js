@@ -1,11 +1,9 @@
-var connect = require('./connect');
-
-var createIndex = function(o) {
-  connect(o, function(err, db){
-    var col = db.collection(o.name);
-    col.createIndex(o.query, function(err, results) {
-      db.close();
-      o.cb(err, results);
+var createIndex = function(props) {
+  this.connect(this.merge( this.props, props ), function(com){
+    var col = db.collection( com.name );
+    col.createIndex(com.query, function(err, results) {
+      com.db.close();
+      com.cb(err, results);
     });
   });
 };

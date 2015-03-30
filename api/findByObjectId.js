@@ -1,13 +1,12 @@
-var connect = require('./connect');
 var parseOId = require('./parseOId');
 
-var findByObjectId = function(o) {
-  connect(o, function(err, db){
-    o.query[o.key] = parseOId(o.query[o.key]);
-    var col = db.collection(o.name);
-    col.findOne(o.query || {}, function(err, results) {
-      db.close();
-      o.cb(err, results);
+var findByObjectId = function(props) {
+  this.connect(this.merge( this.props, props ), function(com){
+    com.query[com.key] = parseOId(com.query[com.key]);
+    var col = com.db.collection(com.name);
+    col.findOne(com.query, function(err, results) {
+      com.db.close();
+      com.cb(err, results);
     });
   });
 };

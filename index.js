@@ -1,30 +1,39 @@
 //MPill library
-
-var mpill = {
-  find: require('./api/find'),
-  drop: require('./api/drop'),
-  merge: require('./api/merge'),
-  multi: require('./api/multi'),
-  count: require('./api/count'),
-  create: require('./api/create'),
-  insert: require('./api/insert'),
-  update: require('./api/update'),
-  connect: require('./api/connect'),
-  findOne: require('./api/findOne'),
-  parseOId: require('./api/parseOId'),
-  dropIndex: require('./api/dropIndex'),
-  createIndex: require('./api/createIndex'),
-  dropDatabase: require('./api/dropDatabase'),
-
-  findByObjectId: require('./api/findByObjectId'),
-  updateByObjectId: require('./api/updateByObjectId'),
-  removeObjectById: require('./api/removeObjectById'),
-  
-  inc: require('./api/inc'),
-  set: require('./api/set'),
-  unset: require('./api/unset'),
-  upsert: require('./api/upsert'),
-  remove: require('./api/remove')
+var callback = function(e, r) {
+  console.log(e);
+  console.log(r);
 };
+
+var mpill = function(props){
+  this.props = this.merge( require('./api/missings.json'), props );
+};
+
+//--- common functions ---//
+mpill.prototype.find = require('./api/find');
+mpill.prototype.drop = require('./api/drop');
+//mpill.prototype.merge = require('./api/merge');
+mpill.prototype.multi = require('./api/multi');
+mpill.prototype.count = require('./api/count');
+mpill.prototype.create = require('./api/create');
+mpill.prototype.insert = require('./api/insert');
+mpill.prototype.update = require('./api/update');
+mpill.prototype.remove = require('./api/remove');
+mpill.prototype.connect = require('./api/connect');
+mpill.prototype.findOne = require('./api/findOne');
+mpill.prototype.parseOId = require('./api/parseOId');
+mpill.prototype.dropIndex = require('./api/dropIndex');
+mpill.prototype.createIndex = require('./api/createIndex');
+mpill.prototype.dropDatabase = require('./api/dropDatabase');
+//--- complex functions---//
+mpill.prototype.findByObjectId = require('./api/findByObjectId');
+mpill.prototype.updateByObjectId = require('./api/updateByObjectId');
+mpill.prototype.removeByObjectId = require('./api/removeByObjectId');
+//--- math functions ---//
+mpill.prototype.inc = require('./api/inc');
+mpill.prototype.set = require('./api/set');
+mpill.prototype.unset = require('./api/unset');
+mpill.prototype.upsert = require('./api/upsert');
+//--- helpers ---//
+mpill.prototype.merge = require('./api/merge');
 
 module.exports = mpill;

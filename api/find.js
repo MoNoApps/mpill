@@ -1,15 +1,12 @@
-var connect = require('./connect');
-
-//query, cb, project, options, limit, sort
-var find = function(o) {
-  connect(o, function(err, db){
-    var col = db.collection(o.name);
-    col.find(o.query || {}, o.project || {}, o.options || {w: 1})
-       .limit(o.limit || 10)
-       .sort(o.sort || {_id: 1})
+var find = function(props) {
+  this.connect(this.merge( this.props, props ), function(com) {
+    var col = com.db.collection( com.name );
+    col.find(com.query, com.project, com.options)
+       .limit(com.limit)
+       .sort(com.sort)
        .toArray(function(err, results) {
-          db.close();
-          o.cb(err, results);
+          com.db.close();
+          com.cb(err, results);
     });
   });
 };

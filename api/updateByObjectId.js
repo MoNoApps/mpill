@@ -1,19 +1,13 @@
-var connect = require('./connect');
 var parseOId = require('./parseOId');
 
-//query, doc, key, concern, cb
-var updateByObjectId = function(o) {
-  connect(o, function(err, db){
-    var col = db.collection(o.name);
-    if (!o.query || !o.doc || !o.key){
-      return o.cb( {code: 'MissingParam', message: 'Query, Doc and Key are required.'});
-    }
+var updateByObjectId = function(props) {
+  this.connect(this.merge( this.props, props ), function(com){
+    var col = com.db.collection(com.name);
+    com.query[com.key] = parseOId(com.query[com.key]);
 
-    o.query[o.key] = parseOId(o.query[o.key]);
-
-    col.update(o.query, o.doc, o.concern || {w: 1}, function(err, results) {
-      db.close();
-      o.cb(err, results);
+    col.update(com.query, com.doc, com.concern, function(err, results) {
+      com.db.close();
+      com.cb(err, results);
     });
   });
 };

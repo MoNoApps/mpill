@@ -1,4 +1,4 @@
-var MPill = require('../mpill.js').MPill;
+var MPill = require('../index.js');
 var assert = require("assert");
 
 var url = 'mongodb://127.0.0.1/mpill';
