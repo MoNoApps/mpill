@@ -64,6 +64,7 @@ model.DropCollection(query, cb)
 model.DropIndex(query, cb)
 model.CreateCollection(cb)
 model.Count(query, cb)
+model.Aggregate(query, cb)
 
 'Special methods'
 model.FindByObjectId(query, key, cb)
@@ -104,7 +105,7 @@ Test with mocha
 Keeps definded functions.
 ```sh
 mocha
-15 passing (10ms)
+18 passing (20ms)
 ```
 
 Code quality with gulp-jshint
@@ -124,3 +125,12 @@ Full api doc: http://docs.mongodb.org/manual/reference/write-concern/
 //Sample with concern
 var concern = {w:1}; //Use primary node server
 ````
+
+## Changelog:
+
+### v0.5.1
+* Add Aggregation framework queries.
+* Add tests for mongo v3
+
+### v0.5.0
+* Stable version for common queries

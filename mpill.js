@@ -249,6 +249,20 @@ MPill.prototype.Count = function(query, cb) {
   });
 };
 
+MPill.prototype.Aggregate = function(query, cb) {
+  this.Connect(function(err, db, name){
+    if(err){ if(cb) { return cb(err, false); } }
+
+    var col = db.collection(name);
+    col.aggregate(query, function(err, results) {
+      db.close();
+      if(cb){
+        cb(err, results);
+      }
+    });
+  });
+};
+
 // Prevents "MongoError: ns not found"
 MPill.prototype.CreateCollection = function(cb) {
   this.Connect(function(err, db, name){

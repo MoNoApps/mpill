@@ -77,4 +77,9 @@ describe('MPill functions', function(){
       assert.ok(parseOID);
     });
   });
+  describe('method aggregate framework', function(){
+    it('should exists aggregate function', function(){
+      assert.ok(users.Aggregate);
+    });
+  });
 });

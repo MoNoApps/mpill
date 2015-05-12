@@ -18,12 +18,12 @@ companies.CreateCollection(function(err, collection){
 
     companies.Insert(myCompany,function(err,results){
       if (err){ return console.log(err); }
-      myCompany =  results[0];
-      tpill.create(myCompany.name, results[0].name, 'Insert', true);
+      myCompany =  results.ops[0];
+      tpill.create(myCompany.name, results.ops[0].name, 'Insert', true);
 
       companies.Update({'_id': myCompany._id}, { $set : {name: 'MoNoApps LLC', upgrade: true} }, function(err,results){
         if (err){ return console.log(err); }
-        tpill.create(1, results, 'Update', false);
+        tpill.create(1, results.result.ok, 'Update', false);
 
         companies.FindOne({'_id': myCompany._id}, function(err,results){
           if (err){ return console.log(err); }
@@ -38,16 +38,16 @@ companies.CreateCollection(function(err, collection){
             hex_value = myCompany._id.toString();
             companies.UpdateByObjectId({'_id': hex_value}, { $set : {name: 'MoNoApps LLC CO'} },  '_id',function(err,results){
               if (err){ return console.log(err); }
-              tpill.create(1, results, 'UpdateByObjectId', true);
+              tpill.create(1, results.result.ok, 'UpdateByObjectId', true);
 
               companies.Insert(secondCompany,function(err,results){
                 if (err){ return console.log(err); }
-                secondCompany = results[0];
+                secondCompany = results.ops[0];
 
                 hex_value = secondCompany._id.toString();
                 companies.RemoveByObjectId({'_id': hex_value},'_id',function(err,results){
                   if (err){ return console.log(err); }
-                  tpill.create(1, results, 'RemoveByObjectId', true);
+                  tpill.create(1, results.result.ok, 'RemoveByObjectId', true);
 
                   companies.Count({}, function(err,results){
                     if (err){ return console.log(err); }
